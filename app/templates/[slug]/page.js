@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getTemplateBySlug, getTemplates } from "../../../lib/cms";
 import BuyButton from "../../../components/BuyButton";
 import Image from "next/image";
+import { signDownloadToken } from "@/lib/security/downloadToken";
 
 export const revalidate = 300;
 
@@ -144,7 +145,16 @@ export default async function TemplateDetail({ params }) {
                 <BuyButton template={t} />
               </a> */}
 
-               <BuyButton template={t} />
+              {t.free ? (
+                <a
+                  href={`/api/download?token=${signDownloadToken({ slug: t.slug, minutes: 30 })}`}
+                  className="rounded-xl bg-brand px-5 py-3 text-white"
+                >
+                  Free download
+                </a>
+              ) : (
+                <BuyButton template={t} />
+              )}
 
               {/* Buy now (server-redirect form) */}
               {/* {t?.stripePriceId ? (
