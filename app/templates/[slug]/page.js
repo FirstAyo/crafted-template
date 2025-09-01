@@ -4,6 +4,7 @@ import { getTemplateBySlug, getTemplates } from "../../../lib/cms";
 import BuyButton from "../../../components/BuyButton";
 import Image from "next/image";
 import { signDownloadToken } from "@/lib/security/downloadToken";
+import PaymentBadges from "@/components/PaymentBadges";
 
 export const revalidate = 300;
 
@@ -138,13 +139,6 @@ export default async function TemplateDetail({ params }) {
               <li>Lifetime updates to this template</li>
             </ul>
             <div className="mt-4 flex gap-3">
-              {/* <a
-                href="/checkout"
-                className="rounded-xl bg-brand px-5 py-3 text-white font-medium hover:bg-brand-dark"
-              >
-                <BuyButton template={t} />
-              </a> */}
-
               {t.free ? (
                 <a
                   href={`/api/download?token=${signDownloadToken({ slug: t.slug, minutes: 30 })}`}
@@ -155,21 +149,6 @@ export default async function TemplateDetail({ params }) {
               ) : (
                 <BuyButton template={t} />
               )}
-
-              {/* Buy now (server-redirect form) */}
-              {/* {t?.stripePriceId ? (
-                <form action="/api/pay/checkout" method="POST">
-                  <input type="hidden" name="priceId" value={t.stripePriceId} />
-                  <input type="hidden" name="slug" value={t.slug} />
-                  <button className="rounded-xl bg-brand px-5 py-3 text-white hover:bg-brand-dark">
-                    Buy now
-                  </button>
-                </form>
-              ) : (
-                <span className="rounded-xl bg-zinc-300 px-5 py-3 text-white">
-                  Coming soon
-                </span>
-              )} */}
 
               {t.demoUrl && (
                 <a
@@ -183,6 +162,7 @@ export default async function TemplateDetail({ params }) {
             </div>
             <div className="mt-3 text-xs text-zinc-600">
               Updated {new Date(t.updatedAt || Date.now()).toLocaleDateString()}
+              <PaymentBadges />
             </div>
           </div>
         </div>

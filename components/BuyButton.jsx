@@ -7,7 +7,7 @@ export default function BuyButton({ template }) {
 
   if (!priceId) {
     return (
-      <span className="rounded-xl bg-zinc-300 text-white font-medium inline-flex items-center justify-center">
+      <span className="rounded-xl bg-zinc-300 px-5 text-white font-medium inline-flex items-center justify-center">
         Coming soon
       </span>
     );

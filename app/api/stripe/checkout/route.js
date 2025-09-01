@@ -43,6 +43,9 @@ export async function POST(request) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
+      allow_promotion_codes: true, // coupons
+      billing_address_collection: "auto", // or "required"
+      // automatic_tax: { enabled: true }, // if you’ve set up Stripe Tax
       success_url: `${site}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${site}/templates/${slug}`,
       metadata: { slug }, // used later for fulfillment
