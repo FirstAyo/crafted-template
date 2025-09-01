@@ -11,19 +11,6 @@ export async function generateStaticParams() {
   return all.map((t) => ({ slug: t.slug }));
 }
 
-// export async function generateMetadata({ params }) {
-//   const t = await getTemplateBySlug(params.slug);
-//   if (!t) return { title: "Template — CraftedTemplate" };
-//   const url = `https://craftedtemplate.com/templates/${t.slug}`;
-//   return {
-//     title: `${t.title} — CraftedTemplate`,
-//     description: t.excerpt,
-//     alternates: { canonical: url },
-//     openGraph: { title: t.title, description: t.excerpt, url, type: "product", images: t.image ? [t.image] : ["/og/default.png"] },
-//     twitter: { card: "summary_large_image" }
-//   };
-// }
-
 export async function generateMetadata({ params }) {
   const t = await getTemplateBySlug(params.slug);
   if (!t) return { title: "Template — CraftedTemplate" };
@@ -150,12 +137,30 @@ export default async function TemplateDetail({ params }) {
               <li>Lifetime updates to this template</li>
             </ul>
             <div className="mt-4 flex gap-3">
-              <a
+              {/* <a
                 href="/checkout"
                 className="rounded-xl bg-brand px-5 py-3 text-white font-medium hover:bg-brand-dark"
               >
                 <BuyButton template={t} />
-              </a>
+              </a> */}
+
+               <BuyButton template={t} />
+
+              {/* Buy now (server-redirect form) */}
+              {/* {t?.stripePriceId ? (
+                <form action="/api/pay/checkout" method="POST">
+                  <input type="hidden" name="priceId" value={t.stripePriceId} />
+                  <input type="hidden" name="slug" value={t.slug} />
+                  <button className="rounded-xl bg-brand px-5 py-3 text-white hover:bg-brand-dark">
+                    Buy now
+                  </button>
+                </form>
+              ) : (
+                <span className="rounded-xl bg-zinc-300 px-5 py-3 text-white">
+                  Coming soon
+                </span>
+              )} */}
+
               {t.demoUrl && (
                 <a
                   href={t.demoUrl}

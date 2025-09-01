@@ -39,7 +39,7 @@ export default function BuyButton({ template }) {
     <button
       type="button" // <-- important: don't submit any form
       onClick={handleClick}
-      className="rounded-xl bg-brand text-white font-medium hover:bg-brand-dark disabled:opacity-60"
+      className="rounded-xl bg-brand px-5 text-white font-medium hover:bg-brand-dark disabled:opacity-60"
       disabled={loading}
     >
       {loading ? "Redirecting…" : "Buy now"}
