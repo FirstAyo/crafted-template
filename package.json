@@ -1,0 +1,33 @@
+{
+  "name": "craftedtemplate-starter",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@portabletext/react": "^4.0.1",
+    "@sanity/client": "^7.9.0",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^4.5.0",
+    "eslint-config-next": "^15.5.0",
+    "next": "^15.5.0",
+    "next-sanity": "^10.0.13",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "resend": "^6.0.2",
+    "sanity": "^4.5.0",
+    "stripe": "^18.5.0",
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.17",
+    "postcss": "8.4.39",
+    "tailwindcss": "3.4.4"
+  },
+  "engines": {
+    "node": ">=18.17"
+  }
+}

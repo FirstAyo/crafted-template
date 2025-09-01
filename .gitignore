@@ -1,0 +1,57 @@
+# --- Node/Next build output ---
+/.next
+/out
+/.turbo
+/.swc
+/.cache
+
+# --- Dependencies ---
+/node_modules
+# If you ever initialized a separate Sanity workspace with its own deps:
+sanity/node_modules/
+
+# --- Vercel project linking (kept local) ---
+/.vercel
+
+# --- Coverage & lint caches ---
+/coverage
+/.nyc_output
+/.eslintcache
+
+# --- Logs ---
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+*.log
+
+# --- Environment & secrets (keep only examples in Git) ---
+.env*
+!.env.example          # keep your example env file tracked
+
+# --- OS cruft ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editor/IDE files ---
+.vscode/
+!.vscode/extensions.json    # (optional) allow recommended extensions list
+!.vscode/settings.example.json
+.idea/
+*.iml
+.history/
+.fleet/
+
+# --- Sanity (local Studio state / build) ---
+sanity/.sanity/
+sanity/.cache/
+sanity/dist/
+sanity/tmp/
+
+# --- Stripe CLI (if it creates local folders in the repo) ---
+.stripe/
+.stripe-cli/
+
+# --- Misc ---
+*.pid
