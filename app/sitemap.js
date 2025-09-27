@@ -1,10 +1,17 @@
+// app/sitemap.js
+// import type { MetadataRoute } from "next";
+
+export const revalidate = 3600; // refresh sitemap hourly
+
 import { getTemplates } from "../lib/cms";
 import { getPosts } from "../lib/blog";
 import { getCategoryCounts, getTagCounts } from "../lib/blog.taxonomy";
 
-export default async function sitemap() {
+export default async function sitemap(/*): Promise<MetadataRoute.Sitemap> */) {
   const base =
     process.env.NEXT_PUBLIC_SITE_URL || "https://craftedtemplate.com";
+
+  const now = new Date();
 
   const staticRoutes = [
     "",
@@ -16,7 +23,9 @@ export default async function sitemap() {
     "/checkout",
   ].map((p) => ({
     url: `${base}${p || "/"}`,
-    lastModified: new Date().toISOString(),
+    lastModified: now, // Date is fine; Next also accepts strings
+    // changeFrequency: "weekly",
+    // priority: 0.7,
   }));
 
   let templateItems = [];
@@ -24,7 +33,8 @@ export default async function sitemap() {
     const templates = await getTemplates();
     templateItems = templates.map((t) => ({
       url: `${base}/templates/${t.slug}`,
-      lastModified: t.updatedAt || new Date().toISOString(),
+      lastModified: t.updatedAt ? new Date(t.updatedAt) : now,
+      // changeFrequency: "weekly",
     }));
   } catch {}
 
@@ -33,7 +43,12 @@ export default async function sitemap() {
     const posts = await getPosts();
     blogItems = posts.map((p) => ({
       url: `${base}/blog/${p.slug}`,
-      lastModified: p.updatedAt || p.publishedAt || new Date().toISOString(),
+      lastModified: p.updatedAt
+        ? new Date(p.updatedAt)
+        : p.publishedAt
+          ? new Date(p.publishedAt)
+          : now,
+      // changeFrequency: "weekly",
     }));
   } catch {}
 
@@ -42,7 +57,7 @@ export default async function sitemap() {
     const cats = await getCategoryCounts();
     catItems = cats.map((c) => ({
       url: `${base}/blog/category/${encodeURIComponent(c.slug)}`,
-      lastModified: new Date().toISOString(),
+      lastModified: now,
     }));
   } catch {}
 
@@ -51,7 +66,7 @@ export default async function sitemap() {
     const tags = await getTagCounts();
     tagItems = tags.map((t) => ({
       url: `${base}/blog/tag/${encodeURIComponent(t.tag)}`,
-      lastModified: new Date().toISOString(),
+      lastModified: now,
     }));
   } catch {}
 
@@ -61,7 +76,29 @@ export default async function sitemap() {
     ...blogItems,
     ...catItems,
     ...tagItems,
-    { url: `${base}/terms`, changefreq: "monthly", priority: 0.3 },
-    { url: `${base}/privacy`, changefreq: "monthly", priority: 0.3 },
+    {
+      url: `${base}/terms`,
+      changeFrequency: "monthly",
+      priority: 0.3,
+      lastModified: now,
+    },
+    {
+      url: `${base}/privacy`,
+      changeFrequency: "monthly",
+      priority: 0.3,
+      lastModified: now,
+    },
+    {
+      url: `${base}/about`,
+      changeFrequency: "monthly",
+      priority: 0.3,
+      lastModified: new Date(),
+    },
+    {
+      url: `${base}/contact`,
+      changeFrequency: "monthly",
+      priority: 0.3,
+      lastModified: new Date(),
+    },
   ];
 }
