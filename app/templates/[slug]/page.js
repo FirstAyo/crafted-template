@@ -4,7 +4,7 @@ import { getTemplateBySlug, getTemplates } from "../../../lib/cms";
 import BuyButton from "../../../components/BuyButton";
 import Image from "next/image";
 import { signDownloadToken } from "@/lib/security/downloadToken";
-import PaymentBadges from "@/components/PaymentBadges";
+// import PaymentBadges from "@/components/PaymentBadges";
 import { PortableText } from "@portabletext/react";
 
 export const revalidate = 300;
@@ -181,7 +181,7 @@ export default async function TemplateDetail({ params }) {
 
         <div>
           <h1 className="text-2xl md:text-3xl font-bold">{t.title}</h1>
-          {/* <p className="mt-2 text-zinc-700">{t.excerpt}</p> */}
+          <p className="mt-2 text-zinc-700">{t.excerpt}</p>
 
           <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
@@ -219,7 +219,7 @@ export default async function TemplateDetail({ params }) {
             </div>
             <div className="mt-3 text-xs text-zinc-600">
               Updated {new Date(t.updatedAt || Date.now()).toLocaleDateString()}
-              <PaymentBadges />
+              {/* <PaymentBadges /> */}
             </div>
           </div>
         </div>
