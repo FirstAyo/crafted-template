@@ -61,5 +61,7 @@ export default async function sitemap() {
     ...blogItems,
     ...catItems,
     ...tagItems,
+    { url: `${base}/terms`, changefreq: "monthly", priority: 0.3 },
+    { url: `${base}/privacy`, changefreq: "monthly", priority: 0.3 },
   ];
 }
