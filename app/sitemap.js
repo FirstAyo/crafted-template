@@ -3,9 +3,18 @@ import { getPosts } from "../lib/blog";
 import { getCategoryCounts, getTagCounts } from "../lib/blog.taxonomy";
 
 export default async function sitemap() {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://craftedtemplate.com";
+  const base =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://craftedtemplate.com";
 
-  const staticRoutes = ["", "/templates", "/pricing", "/blog", "/blog/categories", "/blog/tags", "/checkout"].map((p) => ({
+  const staticRoutes = [
+    "",
+    "/templates",
+    "/pricing",
+    "/blog",
+    "/blog/categories",
+    "/blog/tags",
+    "/checkout",
+  ].map((p) => ({
     url: `${base}${p || "/"}`,
     lastModified: new Date().toISOString(),
   }));
@@ -46,5 +55,11 @@ export default async function sitemap() {
     }));
   } catch {}
 
-  return [...staticRoutes, ...templateItems, ...blogItems, ...catItems, ...tagItems];
+  return [
+    ...staticRoutes,
+    ...templateItems,
+    ...blogItems,
+    ...catItems,
+    ...tagItems,
+  ];
 }

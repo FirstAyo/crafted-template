@@ -1,6 +1,6 @@
 export default function robots() {
   return {
     rules: [{ userAgent: "*", allow: "/" }],
-    sitemap: "https://craftedtemplate.com/sitemap.xml"
+    sitemap: "https://craftedtemplate.com/sitemap.xml",
   };
 }
