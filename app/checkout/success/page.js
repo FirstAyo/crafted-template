@@ -12,20 +12,15 @@ export default async function SuccessPage({ searchParams }) {
   let link = null;
 
   if (sessionId && process.env.STRIPE_SECRET_KEY) {
-    try {
-      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-        apiVersion: "2024-06-20",
-      });
-      const session = await stripe.checkout.sessions.retrieve(sessionId);
-      const slug = session?.metadata?.slug;
-      if (slug) {
-        const site =
-          process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-        const token = signDownloadToken({ slug, minutes: 60 }); // 1-hour link
-        link = `${site}/api/download?token=${token}`;
-      }
-    } catch (e) {
-      console.error("Success page error:", e);
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: "2024-06-20",
+    });
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const slug = session?.metadata?.slug;
+    if (slug) {
+      const site = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+      const token = signDownloadToken({ slug, sid: session.id, minutes: 60 });
+      link = `${site}/api/download?token=${token}`;
     }
   }
 
