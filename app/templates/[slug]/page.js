@@ -5,6 +5,7 @@ import BuyButton from "../../../components/BuyButton";
 import Image from "next/image";
 import { signDownloadToken } from "@/lib/security/downloadToken";
 import PaymentBadges from "@/components/PaymentBadges";
+import { PortableText } from "@portabletext/react";
 
 export const revalidate = 300;
 
@@ -85,6 +86,62 @@ function JsonLd({ template }) {
   );
 }
 
+// wherever you defined ptComponents
+const ptComponents = {
+  block: {
+    normal: ({ children }) => (
+      <p className="mb-4 leading-relaxed">{children}</p>
+    ),
+    h2: ({ children }) => (
+      <h2 className="mt-8 mb-3 text-2xl font-bold">{children}</h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="mt-6 mb-2 text-xl font-semibold">{children}</h3>
+    ),
+    blockquote: ({ children }) => (
+      <blockquote className="my-4 border-l-4 border-zinc-300 pl-4 italic text-zinc-700">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="my-4 list-disc pl-6 space-y-1">{children}</ul>
+    ),
+    number: ({ children }) => (
+      <ol className="my-4 list-decimal pl-6 space-y-1">{children}</ol>
+    ),
+  },
+  types: {
+    image: ({ value }) =>
+      value?.url ? (
+        <img
+          src={value.url}
+          alt=""
+          loading="lazy"
+          className="my-4 rounded-xl border border-zinc-200"
+        />
+      ) : null,
+    code: ({ value }) => (
+      <pre className="my-4 rounded-xl bg-zinc-900 text-zinc-100 p-4 overflow-x-auto text-sm">
+        <code>{value.code}</code>
+      </pre>
+    ),
+  },
+  marks: {
+    link: ({ value, children }) => (
+      <a
+        href={value?.href}
+        target={value?.blank ? "_blank" : undefined}
+        rel={value?.blank ? "noopener noreferrer" : undefined}
+        className="underline text-brand hover:text-brand-dark"
+      >
+        {children}
+      </a>
+    ),
+  },
+};
+
 export default async function TemplateDetail({ params }) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
@@ -116,7 +173,7 @@ export default async function TemplateDetail({ params }) {
               alt={t.title}
               width={1000}
               height={800}
-              className="object-cover"
+              className="object-cover h-full w-full rounded-xl"
               sizes="(min-width:1280px) 25vw, (min-width:768px) 33vw, 100vw"
             />
           </div>
@@ -124,7 +181,7 @@ export default async function TemplateDetail({ params }) {
 
         <div>
           <h1 className="text-2xl md:text-3xl font-bold">{t.title}</h1>
-          <p className="mt-2 text-zinc-700">{t.excerpt}</p>
+          {/* <p className="mt-2 text-zinc-700">{t.excerpt}</p> */}
 
           <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between">
@@ -133,7 +190,7 @@ export default async function TemplateDetail({ params }) {
                 {t.free ? "Free" : `$${t.priceUSD}`}
               </div>
             </div>
-            <ul className="mt-2 list-disc pl-5 text-sm text-zinc-700 space-y-1">
+            <ul className="mt-1 list-disc pl-5 text-sm text-zinc-700 space-y-1">
               <li>Source code and assets</li>
               <li>README with setup & deploy guides</li>
               <li>Lifetime updates to this template</li>
@@ -167,6 +224,13 @@ export default async function TemplateDetail({ params }) {
           </div>
         </div>
       </div>
+
+      {Array.isArray(t.body) && t.body.length > 0 && (
+        <section className="mt-10 prose prose-zinc max-w-none">
+          <h2 className="text-2xl font-bold">Template details</h2>
+          <PortableText value={t.body} components={ptComponents} />
+        </section>
+      )}
     </div>
   );
 }

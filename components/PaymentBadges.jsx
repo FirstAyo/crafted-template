@@ -16,7 +16,7 @@ function PaymentBadges() {
           width={800}
           alt="apple pay logo svg"
           priority
-          className="w-24 h-10 object-cover"
+          className="w-24 h-10 object-cover p-1 border-2 shadow-xl rounded-md"
         />
         <Image
           src={googlePaySVG}
@@ -24,7 +24,7 @@ function PaymentBadges() {
           width={800}
           alt="google pay logo svg"
           priority
-          className="w-24 h-10 object-cover"
+          className="w-24 h-10 object-cover p-1 border-2 shadow-lg rounded-md"
         />
       </div>
       <p className="my-2">Payment methods also available at checkout</p>

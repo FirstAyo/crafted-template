@@ -17,6 +17,8 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     { name: "excerpt", title: "Excerpt", type: "text", rows: 3 },
+    { name: "body", title: "Description", type: "blockContent" },
+
     {
       name: "category",
       title: "Category",

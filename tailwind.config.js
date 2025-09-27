@@ -6,9 +6,12 @@ module.exports = {
   ],
   theme: {
     extend: {
-      container: { center: true, padding: { DEFAULT: "1rem", lg: "2rem", "2xl": "3rem" } },
-      colors: { brand: { DEFAULT: "#4f46e5", dark: "#4338ca" } }
+      container: {
+        center: true,
+        padding: { DEFAULT: "1rem", lg: "2rem", "2xl": "3rem" },
+      },
+      colors: { brand: { DEFAULT: "#4f46e5", dark: "#4338ca" } },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };
