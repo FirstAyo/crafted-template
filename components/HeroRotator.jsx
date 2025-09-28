@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 
 export default function HeroRotator({ items = [], intervalMs = 4000 }) {
   const [idx, setIdx] = useState(0);
 
   useEffect(() => {
     if (!items.length) return;
-    const id = setInterval(() => setIdx((i) => (i + 1) % items.length), intervalMs);
+    const id = setInterval(
+      () => setIdx((i) => (i + 1) % items.length),
+      intervalMs
+    );
     return () => clearInterval(id);
   }, [items.length, intervalMs]);
 
@@ -45,7 +48,10 @@ export default function HeroRotator({ items = [], intervalMs = 4000 }) {
           <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5 flex items-end justify-between">
             <div className="max-w-[80%]">
               <h3 className="text-white text-base md:text-lg font-semibold leading-tight">
-                <Link href={`/templates/${it.slug}`} className="hover:underline">
+                <Link
+                  href={`/templates/${it.slug}`}
+                  className="hover:underline"
+                >
                   {it.title}
                 </Link>
               </h3>
