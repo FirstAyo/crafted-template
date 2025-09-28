@@ -3,41 +3,95 @@ export default {
   title: "Post",
   type: "document",
   fields: [
-    { name: "title", title: "Title", type: "string", validation: Rule => Rule.required() },
-    { name: "slug", title: "Slug", type: "slug", options: { source: "title", maxLength: 96 }, validation: Rule => Rule.required() },
+    {
+      name: "title",
+      title: "Title",
+      type: "string",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    },
     { name: "excerpt", title: "Excerpt", type: "text", rows: 3 },
-    { name: "mainImage", title: "Main Image", type: "image", options: { hotspot: true } },
+    {
+      name: "mainImage",
+      title: "Main Image",
+      type: "image",
+      options: { hotspot: true },
+    },
     {
       name: "author",
       title: "Author",
       type: "reference",
       to: [{ type: "author" }],
-      validation: Rule => Rule.required()
+      validation: (Rule) => Rule.required(),
     },
     {
       name: "categories",
       title: "Categories",
       type: "array",
-      of: [{ type: "reference", to: [{ type: "category" }] }]
+      of: [{ type: "reference", to: [{ type: "category" }] }],
     },
     {
       name: "tags",
       title: "Tags",
       type: "array",
       of: [{ type: "string" }],
-      options: { layout: "tags" }
+      options: { layout: "tags" },
     },
-    { name: "publishedAt", title: "Published at", type: "datetime", validation: Rule => Rule.required() },
+    {
+      name: "publishedAt",
+      title: "Published at",
+      type: "datetime",
+      validation: (Rule) => Rule.required(),
+    },
     { name: "updatedAt", title: "Updated at", type: "datetime" },
     {
       name: "body",
       title: "Body",
       type: "array",
-      of: [
-        { type: "block" },
-        { type: "image", options: { hotspot: true } }
-      ]
+      of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
     },
-    { name: "featured", title: "Featured", type: "boolean", initialValue: false }
-  ]
+    {
+      name: "featured",
+      title: "Featured",
+      type: "boolean",
+      initialValue: false,
+    },
+    {
+      name: "series",
+      title: "Series",
+      type: "string",
+      description: "e.g. hosting-academy",
+      options: {
+        list: [{ title: "Hosting Academy", value: "hosting-academy" }],
+      },
+    },
+    {
+      name: "level",
+      title: "Level",
+      type: "string",
+      options: {
+        list: [
+          { title: "Beginner", value: "beginner" },
+          { title: "Intermediate", value: "intermediate" },
+          { title: "Advanced", value: "advanced" },
+          { title: "Pro", value: "pro" },
+        ],
+        layout: "dropdown",
+      },
+      initialValue: "beginner",
+    },
+    {
+      name: "orderIndex",
+      title: "Order (Series position)",
+      type: "number",
+      description: "Lower first. Use to set the sequence within the series.",
+      validation: (Rule) => Rule.min(0).max(9999),
+    },
+  ],
 };
