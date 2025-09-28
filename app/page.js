@@ -3,6 +3,7 @@ import TemplateCard from "../components/TemplateCard";
 import BlogCard from "../components/BlogCard";
 import { getTemplates } from "../lib/cms";
 import { getPosts } from "../lib/blog";
+import HeroRotator from "@/components/HeroRotator";
 
 export const revalidate = 300;
 export const metadata = {
@@ -54,7 +55,7 @@ function JsonLdHome() {
   );
 }
 
-export default async function HomePage({ searchParams }) {
+export default async function HomePage() {
   const [templates, posts] = await Promise.all([getTemplates(), getPosts()]);
 
   // Featured: newest 8 templates
@@ -63,6 +64,21 @@ export default async function HomePage({ searchParams }) {
     .slice(0, 8);
 
   const recentPosts = (posts || []).slice(0, 3);
+
+  // Build hero pool (only with images), then pick 5 at random
+  const heroPool = (templates || [])
+    .filter((t) => typeof t.image === "string" && t.image)
+    .map((t) => ({ src: t.image, lqip: t.lqip, title: t.title, slug: t.slug }));
+
+  function pickRandom(arr, n) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a.slice(0, n);
+  }
+  const heroItems = pickRandom(heroPool, Math.min(5, heroPool.length));
 
   return (
     <div>
@@ -73,11 +89,11 @@ export default async function HomePage({ searchParams }) {
         <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
           <div>
             <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight">
-              Ship faster with ready‑to‑use{" "}
+              Ship faster with ready-to-use{" "}
               <span className="text-brand">templates</span>
             </h1>
             <p className="mt-3 text-lg text-zinc-700">
-              Clean, SEO‑ready designs for business, portfolios, SaaS, and
+              Clean, SEO-ready designs for business, portfolios, SaaS, and
               student projects. Copy, customize, deploy.
             </p>
 
@@ -133,13 +149,9 @@ export default async function HomePage({ searchParams }) {
             </div>
           </div>
 
-          {/* Hero visual */}
+          {/* Hero visual (rotating gallery) */}
           <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
-            <div className="aspect-[16/10] w-full rounded-xl bg-gradient-to-br from-zinc-100 to-zinc-200 flex items-center justify-center">
-              <div className="text-zinc-500 text-sm">
-                Your template preview here
-              </div>
-            </div>
+            <HeroRotator items={heroItems} intervalMs={4000} />
           </div>
         </div>
       </section>
