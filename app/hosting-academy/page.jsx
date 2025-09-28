@@ -23,7 +23,7 @@ const QUERY = /* groq */ `
   excerpt,
   level,
   publishedAt,
-  coverImage{
+  mainImage{
     asset->{url, metadata{lqip, dimensions}}
   }
 } | order(coalesce(orderIndex, publishedAt) asc)
@@ -121,18 +121,18 @@ function AcademySection({ title, subtitle, items }) {
           >
             <Link href={`/blog/${post.slug}`} className="block">
               <div className="relative aspect-[16/9] bg-neutral-100">
-                {post?.coverImage?.asset?.url ? (
+                {post?.mainImage?.asset?.url ? (
                   <Image
-                    src={post.coverImage.asset.url}
+                    src={post.mainImage.asset.url}
                     alt={post.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover"
                     placeholder={
-                      post.coverImage.asset.metadata?.lqip ? "blur" : "empty"
+                      post.mainImage.asset.metadata?.lqip ? "blur" : "empty"
                     }
                     blurDataURL={
-                      post.coverImage.asset.metadata?.lqip || undefined
+                      post.mainImage.asset.metadata?.lqip || undefined
                     }
                   />
                 ) : null}
