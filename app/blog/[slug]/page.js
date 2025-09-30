@@ -13,7 +13,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const p = await getPostBySlug(params.slug);
+  const { slug } = await params;
+  const p = await getPostBySlug(slug);
   if (!p) return { title: "Blog — CraftedTemplate" };
   const base =
     process.env.NEXT_PUBLIC_SITE_URL || "https://craftedtemplate.com";
@@ -132,10 +133,13 @@ export default async function BlogPostPage({ params }) {
   const base =
     process.env.NEXT_PUBLIC_SITE_URL || "https://craftedtemplate.com";
 
-  const [post, allPosts] = await Promise.all([
-    getPostBySlug(params.slug),
-    getPosts(),
-  ]);
+  // const [post, allPosts] = await Promise.all([
+  //   getPostBySlug(params.slug),
+  //   getPosts(),
+  // ]);
+
+  const { slug } = await params; // await params
+  const [post, allPosts] = await Promise.all([getPostBySlug(slug), getPosts()]);
 
   if (!post) return notFound();
 
