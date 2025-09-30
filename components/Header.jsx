@@ -1,6 +1,8 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import logo from "../public/CraftedTemplate-Logo.png";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -8,7 +10,15 @@ export default function Header() {
     <header className="sticky top-0 z-40 border-b border-zinc-200 bg-white/80 backdrop-blur">
       <div className="container flex h-16 items-center justify-between">
         <Link href="/" className="font-bold text-xl tracking-tight">
-          Crafted<span className="text-brand">Template</span>
+          {/* Crafted<span className="text-brand">Template</span> */}
+          <Image
+            src={logo}
+            width={1000}
+            height={1000}
+            alt="CraftedTemplate"
+            className="inline-block w-40 h-auto"
+            priority
+          />
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm text-zinc-700">
           <Link href="/templates" className="hover:text-black">

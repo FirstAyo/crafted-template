@@ -1,6 +1,6 @@
 import React from "react";
-import applePaySVG from "@/public/images/apple-pay.svg";
-import googlePaySVG from "@/public/images/google-pay.svg";
+import applePaySVG from "@/public/apple-pay.svg";
+import googlePaySVG from "@/public/google-pay.svg";
 import Image from "next/image";
 
 function PaymentBadges() {

@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import logo from "../public/CraftedTemplate-Logo.png";
 
 export default function Footer() {
   return (
@@ -6,7 +8,15 @@ export default function Footer() {
       <div className="container py-12 grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
         <div>
           <div className="font-bold text-lg">
-            Crafted<span className="text-brand">Template</span>
+            {/* Crafted<span className="text-brand">Template</span> */}
+            <Image
+              src={logo}
+              width={1000}
+              height={1000}
+              alt="CraftedTemplate"
+              className="inline-block w-40 h-auto"
+              priority
+            />
           </div>
           <p className="mt-3 text-zinc-600">
             Curated templates with docs, demos, and deploy guides.
