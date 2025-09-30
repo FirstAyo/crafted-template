@@ -53,8 +53,8 @@ export default {
     {
       name: "body",
       title: "Body",
-      type: "array",
-      of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
+      type: "blockContent", //this is from sanity/schema/blockContent.js
+      // of: [{ type: "block" }, { type: "image", options: { hotspot: true } }],
     },
     {
       name: "featured",
