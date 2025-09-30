@@ -6,18 +6,33 @@ import { getPosts } from "../lib/blog";
 import HeroRotator from "@/components/HeroRotator";
 
 export const revalidate = 300;
+// app/page.js (or wherever this metadata lives)
 export const metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://craftedtemplate.com"
+  ),
   title: "CraftedTemplate — Website templates & student projects",
   description:
-    "High‑quality website templates and student project starters. Browse, preview, and ship faster with clean, SEO‑ready designs.",
+    "High-quality website templates and student project starters. Browse, preview, and ship faster with clean, SEO-ready designs.",
   alternates: { canonical: "/" },
   openGraph: {
     title: "CraftedTemplate",
-    description: "High‑quality website templates and student project starters.",
+    description: "High-quality website templates and student project starters.",
     url: "/",
     type: "website",
+    images: [
+      {
+        url: "./opengraph-image.png", // put the file at: public/og/home.png
+        width: 1200,
+        height: 630,
+        alt: "CraftedTemplate — website templates & student projects",
+      },
+    ],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: {
+    card: "summary_large_image",
+    images: ["./opengraph-image.png"], // same file; Twitter uses absolute via metadataBase
+  },
 };
 
 function JsonLdHome() {
@@ -28,7 +43,7 @@ function JsonLdHome() {
     "@type": "Organization",
     name: "CraftedTemplate",
     url: base,
-    logo: `${base}/og/default.png`,
+    logo: `${base}/opengraph-image.png`,
   };
   const dataSite = {
     "@context": "https://schema.org",
