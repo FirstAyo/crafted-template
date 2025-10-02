@@ -84,8 +84,7 @@ export default function AboutPage() {
         <h2 className="text-xl font-semibold">Hi, I’m Festus Ayomike 👋</h2>
         <p className="mt-3 text-zinc-800 leading-relaxed">
           I’m a <strong>full-stack web developer</strong> and{" "}
-          <strong>Computer Science student</strong> living in Canada, originally
-          from <strong>Nigeria</strong>. I built CraftedTemplate after seeing
+          <strong>Computer Science student</strong> living in the City of Vancouver in British Columbia, <strong>Canada</strong>. I built CraftedTemplate after seeing
           the same struggle over and over: students racing against deadlines,
           founders stuck on boilerplate, and small businesses paying too much
           for simple websites.
@@ -129,7 +128,7 @@ export default function AboutPage() {
           <li className="rounded-xl border border-zinc-200 bg-white p-4">
             <h3 className="font-semibold">Student & business friendly</h3>
             <p className="mt-1 text-sm text-zinc-700">
-              Priced so students and small teams can afford them—without cutting
+              Lots of free templates and our paid versions are Priced so students and small teams can afford them—without cutting
               corners.
             </p>
           </li>
