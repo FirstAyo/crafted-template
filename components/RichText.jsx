@@ -3,6 +3,7 @@ import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 // (optional) if you want PT <image> blocks to render, use the URL builder:
 import imageUrlBuilder from "@sanity/image-url";
+import YouTubeLite from "./embeds/YouTubeLite"; // if you added YouTube blocks
 
 const builder = imageUrlBuilder({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -48,6 +49,20 @@ const components = {
       );
     },
     // youtube: ({ value }) => <YouTubeLite url={value?.url} ... /> // if you added YouTube blocks
+    youtube: ({ value }) => (
+      <div className="my-6">
+        <YouTubeLite
+          url={value?.url}
+          title={value?.title || "Video tutorial"}
+          start={value?.start || 0}
+        />
+        {value?.caption && (
+          <p className="mt-2 text-center text-sm text-zinc-600">
+            {value.caption}
+          </p>
+        )}
+      </div>
+    ),
   },
 
   /** Headings + paragraphs */
