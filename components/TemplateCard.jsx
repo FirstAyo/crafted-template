@@ -7,7 +7,7 @@ export default function TemplateCard({ t }) {
     typeof t.image === "string" && t.image.trim() !== "" ? t.image : null;
 
   return (
-    <div className="group rounded-2xl border border-zinc-200 bg-white shadow-sm hover:shadow-md transition">
+    <div className="flex flex-col justify-between rounded-2xl border border-zinc-200 bg-white shadow-sm hover:shadow-md transition">
       <div className="aspect-[16/10] w-full overflow-hidden rounded-t-2xl bg-zinc-100 flex items-center justify-center text-zinc-400 text-sm relative">
         {imgSrc ? (
           <Image
