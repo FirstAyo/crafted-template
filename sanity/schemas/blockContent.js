@@ -38,5 +38,6 @@ export default {
     { type: "image", options: { hotspot: true } },
     { type: "code", title: "Code block" },
     { type: "youtube" }, // reference to the youtube object schema
+    { type: "table" },
   ],
 };
