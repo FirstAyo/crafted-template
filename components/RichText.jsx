@@ -1,9 +1,8 @@
 "use client";
 import { PortableText } from "@portabletext/react";
 import Image from "next/image";
-// (optional) if you want PT <image> blocks to render, use the URL builder:
 import imageUrlBuilder from "@sanity/image-url";
-import YouTubeLite from "./embeds/YouTubeLite"; // if you added YouTube blocks
+import YouTubeLite from "./embeds/YouTubeLite";
 
 const builder = imageUrlBuilder({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -11,6 +10,7 @@ const builder = imageUrlBuilder({
 });
 const urlFor = (src) => builder.image(src).width(1600).url();
 
+/* ----- Code block ----- */
 function CodeBlock({ value }) {
   const { language, code, filename } = value || {};
   return (
@@ -28,12 +28,68 @@ function CodeBlock({ value }) {
   );
 }
 
+/* ----- Table block (robust thead) ----- */
+function TableBlock({ value }) {
+  const rowsRaw = Array.isArray(value?.rows) ? value.rows : [];
+  if (!rowsRaw.length) return null;
+
+  // Normalize row shape: [{cells:[...]}] or [ [...cells] ]
+  const rows = rowsRaw.map((r) => (Array.isArray(r) ? { cells: r } : r));
+
+  // Prefer explicit flag from the plugin; otherwise assume first row is header
+  const hasHeaderRow =
+    typeof value?.hasHeaderRow === "boolean" ? value.hasHeaderRow : true;
+
+  const headRow = hasHeaderRow ? rows[0] : null;
+  const bodyRows = hasHeaderRow ? rows.slice(1) : rows;
+
+  const renderCells = (cells, isHeader) => {
+    const Tag = isHeader ? "th" : "td";
+    return (cells || []).map((cell, i) => {
+      const content = cell?.content ?? cell; // string or PT array
+      return (
+        <Tag
+          key={cell?._key || i}
+          className={`border border-zinc-300 px-3 py-2 ${
+            isHeader ? "font-semibold text-left bg-zinc-50" : "align-top"
+          }`}
+        >
+          {typeof content === "string" ? (
+            content
+          ) : Array.isArray(content) ? (
+            <PortableText value={content} />
+          ) : (
+            (content?.text ?? String(content ?? ""))
+          )}
+        </Tag>
+      );
+    });
+  };
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse border border-zinc-300 text-sm">
+        {headRow && (
+          <thead>
+            <tr>{renderCells(headRow.cells, true)}</tr>
+          </thead>
+        )}
+        <tbody>
+          {bodyRows.map((row, ri) => (
+            <tr key={row?._key || ri}>{renderCells(row.cells, false)}</tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+/* ----- PortableText components map ----- */
 const components = {
-  /** ✅ block-level types go here */
   types: {
-    code: CodeBlock, // <-- this is the key change
+    code: CodeBlock,
+    table: TableBlock, // ✅ register table INSIDE types
     image: ({ value }) => {
-      // Portable Text image blocks usually have a ref, not a direct URL
       const url =
         value?.asset?.url || (value?.asset?._ref ? urlFor(value) : null);
       if (!url) return null;
@@ -48,7 +104,6 @@ const components = {
         </div>
       );
     },
-    // youtube: ({ value }) => <YouTubeLite url={value?.url} ... /> // if you added YouTube blocks
     youtube: ({ value }) => (
       <div className="my-6">
         <YouTubeLite
@@ -64,8 +119,6 @@ const components = {
       </div>
     ),
   },
-
-  /** Headings + paragraphs */
   block: {
     h1: ({ children }) => (
       <h1 className="mt-8 text-3xl font-bold">{children}</h1>
@@ -85,8 +138,6 @@ const components = {
       </blockquote>
     ),
   },
-
-  /** Inline marks */
   marks: {
     strong: ({ children }) => (
       <strong className="font-semibold">{children}</strong>
@@ -114,8 +165,6 @@ const components = {
       </a>
     ),
   },
-
-  /** Lists */
   list: {
     bullet: ({ children }) => (
       <ul className="mt-4 list-disc pl-5 space-y-2">{children}</ul>
